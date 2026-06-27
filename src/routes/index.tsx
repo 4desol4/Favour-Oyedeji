@@ -668,16 +668,40 @@ function Contact() {
 /* ============ FOOTER ============ */
 function Footer() {
   return (
-    <footer className="border-t border-border/40 px-5 sm:px-6 pt-8 sm:pt-10 pb-28 sm:pb-32 lg:pb-36">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-sm text-muted-foreground text-center">
-        <div className="font-display text-lg text-foreground flex items-center gap-2">
-          <Aperture className="w-4 h-4 text-primary" />{" "}
-          <span className="text-gradient-gold font-semibold">Favour</span> Oyedeji
+    <footer className="px-4 pb-24 pt-8 sm:px-6 sm:pb-28 sm:pt-10 lg:pb-32">
+      <div className="mx-auto max-w-7xl rounded-[1.6rem] border border-border/60 bg-gradient-to-br from-background/90 via-background/80 to-background/90 px-5 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl sm:px-7 sm:py-7 lg:px-8 lg:py-8">
+        <div className="flex flex-col items-center justify-between gap-4 text-center text-sm text-muted-foreground sm:flex-row sm:text-left">
+          <div className="flex items-center gap-3 font-display text-xl text-foreground sm:text-2xl lg:text-[1.75rem]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10 sm:h-11 sm:w-11">
+              <Aperture className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
+            </div>
+            <div className="leading-none">
+              <p className="block font-semibold text-gradient-gold">Favour <span className="italic font-light text-muted-foreground">Oyedeji</span> </p>       
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px] uppercase tracking-[0.28em] sm:justify-end sm:gap-3 sm:text-[11px]">
+            <span className="rounded-full border border-border/60 bg-background/70 px-3 py-1.5">
+              © {new Date().getFullYear()} · End of reel
+            </span>
+            <span className="hidden text-border/70 sm:inline">•</span>
+            <span className="rounded-full border border-border/60 bg-background/70 px-3 py-1.5">
+              Made by{" "}
+              <a
+                href="https://github.com/4desol4"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-foreground transition-colors hover:text-primary"
+              >
+                4desol4
+              </a>
+            </span>
+            <span className="hidden text-border/70 sm:inline">•</span>
+            <span className="rounded-full border border-border/60 bg-background/70 px-3 py-1.5">
+              Ekiti · Nigeria
+            </span>
+          </div>
         </div>
-        <div className="font-mono text-[10px] tracking-widest uppercase">
-          © {new Date().getFullYear()} · End of reel
-        </div>
-        <div className="font-mono text-[10px] tracking-widest uppercase">Ekiti · Nigeria</div>
       </div>
     </footer>
   );
