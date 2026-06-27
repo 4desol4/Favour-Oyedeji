@@ -488,7 +488,7 @@ function Projects() {
               </h2>
             </div>
             <p className="text-muted-foreground max-w-sm font-mono text-[10px] sm:text-xs tracking-widest uppercase">
-              06 scenes · 2022 — 2024 · drop your media into any slot
+              06 scenes · 2022 — 2024
             </p>
           </div>
         </Reveal>
