@@ -2,10 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { ToolIcon } from "@/components/ToolIcons";
 import { ViewfinderCursor } from "@/components/ViewfinderCursor";
-import { ShutterIntro } from "@/components/ShutterIntro";
 import { FocusFrame } from "@/components/FocusFrame";
 import { TimelineHUD } from "@/components/TimelineHUD";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import heroBg from "@/assets/hero-bg.jpg";
+import fav1Video from "@/assets/fav (3).mp4";
+import fav2Video from "@/assets/fav (1).mp4";
+import fav3Video from "@/assets/fav (2).mp4";
+import fav1Image from "@/assets/fav (3).jpg";
+import fav2Image from "@/assets/fav (7).jpg";
+import fav3Image from "@/assets/fav (5).jpg";
 import {
   Camera,
   Film,
@@ -46,7 +52,8 @@ const projects: Project[] = [
     scene: "SC_01",
     media: {
       kind: "video",
-      poster: heroBg,
+      poster: fav1Image,
+      src: fav1Video,
     },
   },
   {
@@ -57,20 +64,23 @@ const projects: Project[] = [
     accent: "from-amber-400/25 to-orange-600/10",
     scene: "SC_02",
     media: {
-      kind: "image",
-      src: heroBg,
+      kind: "video",
+      poster: fav2Image,
+      src: fav2Video,
     },
   },
   {
-    title: "Conference Highlight Reel",
-    type: "Video — Event",
-    blurb: "Speakers, crowds, energy — condensed to 60s of rhythm.",
+    title: "Cinematic Showreel",
+    type: "Videography",
+    blurb:
+      "A seamless blend of visuals, motion, and storytelling through dynamic edits and cinematic transitions.",
     aspect: "aspect-video",
     accent: "from-yellow-400/20 to-amber-700/10",
     scene: "SC_03",
     media: {
       kind: "video",
-      poster: heroBg,
+      poster: fav3Image,
+      src: fav3Video,
     },
   },
   {
@@ -82,31 +92,31 @@ const projects: Project[] = [
     scene: "SC_04",
     media: {
       kind: "image",
-      src: heroBg,
+      src: fav1Image,
     },
   },
   {
-    title: "Lifestyle & Product",
+    title: "Street & Portrait",
     type: "Photography",
-    blurb: "Considered composition. Objects as stories.",
+    blurb: "Bold perspectives. Authentic moments. Stories told through light and emotion.",
     aspect: "aspect-square",
     accent: "from-orange-400/20 to-yellow-500/10",
     scene: "SC_05",
     media: {
       kind: "image",
-      src: heroBg,
+      src: fav2Image,
     },
   },
   {
-    title: "Event Coverage",
+    title: "Nature & Macro",
     type: "Photography",
-    blurb: "Candid documentation of moments as they unfold.",
+    blurb: "Capturing the beauty of nature with vibrant detail, depth, and cinematic focus.",
     aspect: "aspect-[4/5]",
     accent: "from-amber-500/20 to-red-500/10",
     scene: "SC_06",
     media: {
       kind: "image",
-      src: heroBg,
+      src: fav3Image,
     },
   },
 ];
@@ -141,7 +151,6 @@ const experience = [
 export default function Portfolio() {
   return (
     <div className="min-h-screen overflow-x-hidden relative">
-      <ShutterIntro />
       <ViewfinderCursor />
       <ScrollProgress />
       <Nav />
@@ -189,9 +198,9 @@ function Nav() {
             <span className="absolute inset-0 rounded-full bg-primary/30 blur-md group-hover:bg-primary/50 transition-colors" />
             <Aperture className="relative w-5 h-5 sm:w-6 sm:h-6 text-primary aperture-spin" />
           </span>
-          <span className="font-display text-lg sm:text-2xl leading-none tracking-tight truncate">
-            <span className="text-gradient-gold font-semibold">Favour</span>
-            <span className="italic text-muted-foreground ml-1.5 hidden sm:inline">Oyedeji</span>
+          <span className="font-signature text-lg sm:text-2xl leading-none tracking-[0.08em] truncate">
+            <span className="text-gradient-gold font-normal">Favour</span>
+            <span className="text-muted-foreground ml-1.5 hidden sm:inline">Oyedeji</span>
           </span>
         </a>
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-mono tracking-widest uppercase text-muted-foreground">
@@ -474,6 +483,14 @@ function Tools() {
 
 /* ============ PROJECTS ============ */
 function Projects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const openProject = (project: Project) => {
+    setSelectedProject(project);
+    setDialogOpen(true);
+  };
+
   return (
     <section id="work" className="py-20 sm:py-28 md:py-32 px-5 sm:px-6">
       <div className="max-w-7xl mx-auto">
@@ -496,78 +513,122 @@ function Projects() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {projects.map((p, i) => (
             <Reveal key={p.title} delay={(i % 3) * 120}>
-              <article className="group" data-hover>
-                <FocusFrame
-                  className={`relative overflow-hidden rounded-2xl border border-border bg-card ${p.aspect}`}
-                >
-                  {p.media.kind === "video" && (
-                    <span className="absolute top-3 right-3 z-10 rounded-full bg-background/80 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-muted-foreground border border-border">
-                      Video
-                    </span>
-                  )}
-                  <div className="absolute inset-0">
-                    {p.media.kind === "video" && p.media.src ? (
-                      <video
-                        className="absolute inset-0 h-full w-full object-cover"
-                        poster={p.media.poster}
-                        src={p.media.src}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                      />
-                    ) : (
-                      <img
-                        src={p.media.kind === "image" ? p.media.src : p.media.poster}
-                        alt={p.title}
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
+              <button
+                type="button"
+                className="group w-full text-left"
+                onClick={() => openProject(p)}
+                aria-label={`View ${p.title}`}
+              >
+                <article className="group" data-hover>
+                  <FocusFrame
+                    className={`relative overflow-hidden rounded-2xl border border-border bg-card ${p.aspect}`}
+                  >
+                    {p.media.kind === "video" && (
+                      <span className="absolute top-3 right-3 z-10 rounded-full bg-background/80 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-muted-foreground border border-border">
+                        Video
+                      </span>
                     )}
-                  </div>
-                  <div className={`absolute inset-0 bg-gradient-to-br ${p.accent}`} />
-                  <UploadSlot
-                    label={p.media.kind === "video" ? "Upload video / poster" : "Upload photo"}
-                    className="absolute inset-0 rounded-2xl border-0 bg-transparent"
-                    subtle
-                  />
-                  {/* scene marker */}
-                  <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-2 z-10">
-                    <span className="chip backdrop-blur-md bg-background/60">
-                      {p.type.startsWith("Video") && (
-                        <span className="rec-dot w-1.5 h-1.5 rounded-full bg-destructive inline-block" />
+                    <div className="absolute inset-0">
+                      {p.media.kind === "video" && p.media.src ? (
+                        <video
+                          className="absolute inset-0 h-full w-full object-cover"
+                          poster={p.media.poster}
+                          src={p.media.src}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={p.media.kind === "image" ? p.media.src : p.media.poster}
+                          alt={p.title}
+                          className="absolute inset-0 h-full w-full object-cover"
+                        />
                       )}
-                      {p.scene}
+                    </div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${p.accent}`} />
+                    {/* scene marker */}
+                    <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-2 z-10">
+                      <span className="chip backdrop-blur-md bg-background/60">
+                        {p.type.startsWith("Video") && (
+                          <span className="rec-dot w-1.5 h-1.5 rounded-full bg-destructive inline-block" />
+                        )}
+                        {p.scene}
+                      </span>
+                    </div>
+                    {/* timecode bottom-left */}
+                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 font-mono text-[9px] tracking-widest text-foreground/70 z-10">
+                      00:00:{String(10 + i * 7).padStart(2, "0")}:14
+                    </div>
+                    {/* play icon */}
+                    <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-500 z-10">
+                      {p.type.startsWith("Video") ? (
+                        <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                      ) : (
+                        <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                      )}
+                    </div>
+                  </FocusFrame>
+                  <div className="pt-4 sm:pt-5 flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <h3 className="font-display text-xl sm:text-2xl group-hover:text-gradient-gold transition-colors">
+                        {p.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">{p.blurb}</p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground shrink-0 mt-1">
+                      {p.type.split(" — ")[0]}
                     </span>
                   </div>
-                  {/* timecode bottom-left */}
-                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 font-mono text-[9px] tracking-widest text-foreground/70 z-10">
-                    00:00:{String(10 + i * 7).padStart(2, "0")}:14
-                  </div>
-                  {/* play icon */}
-                  <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-500 z-10">
-                    {p.type.startsWith("Video") ? (
-                      <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    ) : (
-                      <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                    )}
-                  </div>
-                </FocusFrame>
-                <div className="pt-4 sm:pt-5 flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-display text-xl sm:text-2xl group-hover:text-gradient-gold transition-colors">
-                      {p.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1">{p.blurb}</p>
-                  </div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground shrink-0 mt-1">
-                    {p.type.split(" — ")[0]}
-                  </span>
-                </div>
-              </article>
+                </article>
+              </button>
             </Reveal>
           ))}
         </div>
       </div>
+
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={(open) => {
+          setDialogOpen(open);
+          if (!open) setSelectedProject(null);
+        }}
+      >
+        <DialogContent className="max-w-[min(100vw-2rem,900px)] w-full max-h-[85vh] p-0 sm:rounded-2xl overflow-hidden bg-transparent">
+          {selectedProject && (
+            <div className="relative bg-background overflow-hidden shadow-2xl rounded-none sm:rounded-2xl">
+              <div className="bg-black">
+                {selectedProject.media.kind === "video" ? (
+                  <video
+                    className="w-full max-h-[55vh] sm:max-h-[65vh] lg:max-h-[70vh] object-contain"
+                    controls
+                    autoPlay
+                    playsInline
+                    src={selectedProject.media.src}
+                    poster={selectedProject.media.poster}
+                  />
+                ) : (
+                  <img
+                    src={selectedProject.media.src}
+                    alt={selectedProject.title}
+                    className="w-full max-h-[55vh] sm:max-h-[65vh] lg:max-h-[70vh] object-contain"
+                  />
+                )}
+              </div>
+              <div className="px-4 py-5 sm:px-6 sm:py-6">
+                <h2 className="font-display text-2xl sm:text-3xl mb-3">{selectedProject.title}</h2>
+                <p className="text-[11px] uppercase tracking-[0.35em] text-muted-foreground mb-4">
+                  {selectedProject.type}
+                </p>
+                <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
+                  {selectedProject.blurb}
+                </p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
@@ -644,19 +705,23 @@ function Contact() {
         <Reveal delay={150}>
           <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <a
-              href="mailto:hello@favouroyedeji.com"
+              href="https://www.instagram.com/gods_favourite260?igsh=NW96dGZmeHBxbmti"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-8 py-3 sm:py-4 rounded-full bg-primary text-primary-foreground font-medium text-xs sm:text-base md:text-lg hover:opacity-90 transition-opacity hover-shake"
               data-hover
             >
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />{" "}
-              <span className="truncate">hello@favouroyedeji.com</span>
+              <Instagram className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />{" "}
+              <span className="truncate">Instagram</span>
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@bami_edits2?is_from_webapp=1&sender_device=pc"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-border text-sm sm:text-base hover:bg-surface transition-colors"
               data-hover
             >
-              <Instagram className="w-5 h-5" /> Instagram
+              <Play className="w-5 h-5" /> TikTok
             </a>
           </div>
         </Reveal>
@@ -676,7 +741,9 @@ function Footer() {
               <Aperture className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
             </div>
             <div className="leading-none">
-              <p className="block font-semibold text-gradient-gold">Favour <span className="italic font-light text-muted-foreground">Oyedeji</span> </p>       
+              <p className="block font-signature text-xl sm:text-2xl text-gradient-gold tracking-[0.08em]">
+                Favour <span className="text-muted-foreground">Oyedeji</span>{" "}
+              </p>
             </div>
           </div>
 

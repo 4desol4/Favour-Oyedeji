@@ -1,13 +1,17 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import Portfolio from "./routes/index";
+import { ShutterIntro } from "./components/ShutterIntro";
 import "./styles.css";
+
+const Portfolio = React.lazy(() => import("./routes/index"));
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");
 
 createRoot(root).render(
   <React.StrictMode>
-    <Portfolio />
+    <React.Suspense fallback={<ShutterIntro />}>
+      <Portfolio />
+    </React.Suspense>
   </React.StrictMode>,
 );
