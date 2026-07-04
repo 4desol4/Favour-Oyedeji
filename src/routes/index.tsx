@@ -12,6 +12,7 @@ import fav3Video from "@/assets/fav (2).mp4";
 import fav1Image from "@/assets/fav (3).jpg";
 import fav2Image from "@/assets/fav (7).jpg";
 import fav3Image from "@/assets/fav (5).jpg";
+import favourImg from "@/assets/Favour.jpg";
 import {
   Camera,
   Film,
@@ -386,7 +387,7 @@ function About() {
           <FocusFrame className="rounded-3xl">
             <div className="relative aspect-[3/4] w-full">
               <img
-                src="src/assets/Favour.jpg"
+                src={favourImg}
                 alt="A portrait of Favour Oyedeji"
                 className="absolute inset-0 h-full w-full object-cover"
               />
