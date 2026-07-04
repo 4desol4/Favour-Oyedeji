@@ -747,7 +747,7 @@ function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px] uppercase tracking-[0.28em] sm:justify-end sm:gap-3 sm:text-[11px]">
+          <div className="flex flex-wrap items-center justify-center gap-2 font-[Rajdhani] text-[10px] uppercase tracking-[0.28em] sm:justify-end sm:gap-3 sm:text-[11px]">
             <span className="rounded-full border border-border/60 bg-background/70 px-3 py-1.5">
               © {new Date().getFullYear()} · End of reel
             </span>
